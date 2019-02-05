@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\03 - Application\UseCases\UseCases.csproj" />
+    <ProjectReference Include="..\..\04 - Dependencies\BookingStorage\BookingStorage.csproj" />
   </ItemGroup>
 
 </Project>

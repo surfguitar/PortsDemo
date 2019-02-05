@@ -3,8 +3,9 @@ using System;
 
 namespace BookingStorage
 {
-    public interface IBookingStorage
+    public interface IBookingRepository
     {
         void CreateBooking(Booking booking);
+        void UpdateBooking(Booking booking);
     }
 }

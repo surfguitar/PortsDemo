@@ -10,8 +10,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\02 - Api\Api\Api.csproj" />
+    <ProjectReference Include="..\..\03 - Application\UseCases\UseCases.csproj" />
+    <ProjectReference Include="..\..\05 - DataSideAdapter\BookingPersistence\BookingSqlAdapter\BookingSqlAdapter.csproj" />
   </ItemGroup>
 
 </Project>
