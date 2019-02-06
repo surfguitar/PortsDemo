@@ -1,6 +1,8 @@
 ﻿using BookingStorage;
 using Domain;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace UseCases
 {
@@ -13,14 +15,20 @@ namespace UseCases
             _bookingRepository = bookingRepository;
         }
 
-        public void CreateBooking(Booking booking)
+        public async Task CreateBooking(Booking booking)
         {
-            _bookingRepository.CreateBooking(booking);
+           await _bookingRepository.CreateBookingAsync(booking);
         }
 
-        public void UpdateBooking(Booking booking)
+        public void SetBookingInactive(Booking booking)
         {
+            booking.SetBookingInActive();
             _bookingRepository.UpdateBooking(booking);
+        }
+
+        public IEnumerable<Booking> GetBookings()
+        {
+            return _bookingRepository.GetBookings();
         }
     }
 }

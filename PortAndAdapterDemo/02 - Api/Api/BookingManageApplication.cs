@@ -1,5 +1,7 @@
 ﻿using Domain;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UseCases;
 
 namespace Api
@@ -13,9 +15,19 @@ namespace Api
             _manageBookingController = manageBookingController;
         }
 
-        public void CreateBooking(Booking booking)
+        public async Task CreateBooking(Booking booking)
         {
-            _manageBookingController.CreateBooking(booking);
+            await _manageBookingController.CreateBooking(booking);
+        }
+
+        public void SetBookingInactive(Booking booking)
+        {
+            _manageBookingController.SetBookingInactive(booking);
+        }
+
+        public IEnumerable<Booking> GetBookings()
+        {
+            return _manageBookingController.GetBookings();
         }
     }
 }

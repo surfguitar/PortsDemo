@@ -1,11 +1,13 @@
 ﻿using Domain;
-using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BookingStorage
 {
     public interface IBookingRepository
     {
-        void CreateBooking(Booking booking);
+        Task CreateBookingAsync(Booking booking);
         void UpdateBooking(Booking booking);
+        IEnumerable<Booking> GetBookings();
     }
 }

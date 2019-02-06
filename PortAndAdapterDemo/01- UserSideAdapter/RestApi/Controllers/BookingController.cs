@@ -10,7 +10,7 @@ namespace RestApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BookingController : ControllerBase
+    public class BookingController : Controller
     {
         private readonly BookingManageApplication _bookingManageApplication;
 
@@ -20,17 +20,27 @@ namespace RestApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public IActionResult GetBookings()
         {
-            return new string[] { "value1", "value2" };
+            var bookings = _bookingManageApplication.GetBookings().ToList();
+            return Ok(bookings);
         }
 
         [HttpPost]
-        public IActionResult CreateBooking()
+        public async Task<IActionResult> CreateBooking(DateTime appointmentTime)
         {
-            var booking = new Booking(DateTime.UtcNow, new HealthInstitution("", "", ""), new Person("", ""));
-            _bookingManageApplication.CreateBooking(booking);
+            //Should take a DTO that maps to domain object!
 
+            var booking = new Booking(appointmentTime, new HealthInstitution(Guid.Parse("1CE7DC77-5E3B-4BA0-A0E4-0D25B23A9C11"), "Scapellkliniken", "skärgatan 777", "08-66666", DateTime.UtcNow), new Person(Guid.Parse("F27C6B18-2853-4250-AF1E-9E4371A1B12A"), "Jörgen Katz", "jorge@katz.com"));
+            await _bookingManageApplication.CreateBooking(booking);
+
+            return Ok();
+        }
+
+        [HttpPut]
+        public IActionResult SetBookingIActive(Booking booking)
+        {
+            _bookingManageApplication.SetBookingInactive(booking);
             return Ok();
         }
     }

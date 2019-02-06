@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 using UseCases;
 
 namespace RestApi
@@ -21,7 +22,8 @@ namespace RestApi
     public class Startup
     {
       
-        public const string connectionString = "Server=tcp:test-gurra.database.windows.net,1433;Initial Catalog=PortsDemo;Persist Security Info=False;User ID={your_username};Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        public const string connectionString = "Server=tcp:test-gurra.database.windows.net,1433;Initial Catalog=PortsDemo;Persist Security Info=False;User ID=XXX;Password=XXX;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private const string ApiName = "PortsDemo API";
 
         public Startup(IConfiguration configuration)
         {
@@ -34,9 +36,13 @@ namespace RestApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc();//.SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddRouting();
-            
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = ApiName, Version = "v1" });
+            });
 
             var containerBuilder = new ContainerBuilder();
             containerBuilder.Populate(services);
@@ -56,8 +62,19 @@ namespace RestApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
+            app.UseStaticFiles();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "PortsDemo API V1");
+                c.RoutePrefix = string.Empty;
+            });
+
             app.UseMvc();
+            
+
+
         }
     }
 }

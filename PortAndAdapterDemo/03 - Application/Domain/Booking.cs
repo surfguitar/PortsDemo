@@ -10,6 +10,7 @@ namespace Domain
             AppointmentTime = appointmentTime;
             HealthInstitution = healthInstitution;
             Person = person;
+            IsActive = true;
         }
 
         public Booking(Guid id, DateTime appointmentTime, HealthInstitution healthInstitution, Person person)
