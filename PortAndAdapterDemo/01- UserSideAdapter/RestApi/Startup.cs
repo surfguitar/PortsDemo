@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Api;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using BookingQueue;
 using BookingSqlAdapter;
 using BookingStorage;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ServicebusAdapter;
 using Swashbuckle.AspNetCore.Swagger;
 using UseCases;
 
@@ -22,7 +24,8 @@ namespace RestApi
     public class Startup
     {
       
-        public const string connectionString = "Server=tcp:test-gurra.database.windows.net,1433;Initial Catalog=PortsDemo;Persist Security Info=False;User ID=XXX;Password=XXX;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        public const string connectionString = "Server=tcp:test-gurra.database.windows.net,1433;Initial Catalog=PortsDemo;Persist Security Info=False;User ID=gurra;Password=Levelup!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        public const string ServiceBusConnectionString = "Endpoint=sb://gus-test.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=WD8YDSi9Pg6D9XhKSkCRBhQa6OYliNfO11J0lZ2gabM=";
         private const string ApiName = "PortsDemo API";
 
         public Startup(IConfiguration configuration)
@@ -50,6 +53,7 @@ namespace RestApi
             containerBuilder.RegisterType<BookingManageApplication>();
             containerBuilder.RegisterType<ManageBookingController>();
             containerBuilder.RegisterInstance(new BookingRepository(connectionString)).As<IBookingRepository>();
+            containerBuilder.RegisterInstance(new AzureServicebusAdapter(ServiceBusConnectionString)).As<IBookingEventEmitter>();
 
             var container = containerBuilder.Build();
             return container.Resolve<IServiceProvider>();
