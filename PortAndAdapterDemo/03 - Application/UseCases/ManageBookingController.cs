@@ -24,10 +24,12 @@ namespace UseCases
            await _bookingEventEmitter.EnqueBookingEvent(new BookingEvent(booking.Id, BookingEventTypeEnum.Created, DateTime.UtcNow));
         }
 
-        public void SetBookingInactive(Booking booking)
+        public async Task SetBookingInactive(Booking booking)
         {
             booking.SetBookingInActive();
-            _bookingRepository.UpdateBooking(booking);
+            await _bookingRepository.UpdateBooking(booking);
+            await _bookingEventEmitter.EnqueBookingEvent(new BookingEvent(booking.Id, BookingEventTypeEnum.Updated, DateTime.UtcNow));
+
         }
 
         public IEnumerable<Booking> GetBookings()

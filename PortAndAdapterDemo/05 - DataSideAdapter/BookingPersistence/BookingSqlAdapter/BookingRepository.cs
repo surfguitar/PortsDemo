@@ -64,17 +64,17 @@ namespace BookingSqlAdapter
             }
         }
 
-        public void UpdateBooking(Booking booking)
+        public async Task UpdateBooking(Booking booking)
         {
             const string sql = "UPDATE Booking SET IsActive = @IsActive WHERE Id = @Id";
                             
             using (var connection = new SqlConnection(_connectionString))
             {
-                 connection.Open();
+                 await connection.OpenAsync();
 
 
 
-                connection.Execute(sql,
+                await connection.ExecuteAsync(sql,
                      new
                      {
                          Id = booking.Id,

@@ -7,7 +7,7 @@ namespace BookingStorage
     public interface IBookingRepository
     {
         Task CreateBookingAsync(Booking booking);
-        void UpdateBooking(Booking booking);
+        Task UpdateBooking(Booking booking);
         IEnumerable<Booking> GetBookings();
     }
 }

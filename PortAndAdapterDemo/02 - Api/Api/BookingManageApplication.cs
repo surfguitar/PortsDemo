@@ -20,9 +20,9 @@ namespace Api
             await _manageBookingController.CreateBooking(booking);
         }
 
-        public void SetBookingInactive(Booking booking)
+        public async Task SetBookingInactive(Booking booking)
         {
-            _manageBookingController.SetBookingInactive(booking);
+           await _manageBookingController.SetBookingInactive(booking);
         }
 
         public IEnumerable<Booking> GetBookings()
